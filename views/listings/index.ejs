@@ -1,0 +1,250 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .categories-container {
+        display: flex;
+        overflow-x: auto; /* iske vajah se hi scrolling effect aaraha hai */
+        white-space: nowrap; /*This prevents the category items from wrapping to the next line, forcing them to stay in a single horizontal row and enabling the scroll effect. */
+        padding: 10px 0;
+        scrollbar-width: thin;
+        -ms-overflow-style: none;
+    }
+
+    .categories-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+        .categories-container {
+            justify-content: space-evenly;
+            overflow-x: visible;
+        }
+    }
+
+    .category-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 10px;
+        text-decoration: none;
+        color: black;
+        padding: 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .category-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    .category-icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+
+    .category-name {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .toggle-button {
+        position: relative;
+        display: flex; /* Use flexbox */
+        align-items: center; /* Align items vertically */
+        margin-left: auto; /* Push to the right */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+
+    .toggle-button label {
+        margin-right: 10px; /* Add some space between label and switch */
+    }
+
+    .listing-card {
+        margin-bottom: 20px;
+    }
+
+    .listing-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Toggle Switch Styles */
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+</style>
+
+<div class="container mt-0.5">
+    <div class="d-flex align-items-center">
+        <div class="categories-container">
+            <a href="/listings?category=Trending" class="category-item">
+                <div class="category-icon"><i class="fas fa-fire"></i></div>
+                <div class="category-name">Trending</div>
+            </a>
+            <a href="/listings?category=Rooms" class="category-item">
+                <div class="category-icon"><i class="fas fa-bed"></i></div>
+                <div class="category-name">Rooms</div>
+            </a>
+            <a href="/listings?category=Amazing Views" class="category-item">
+                <div class="category-icon"><i class="fas fa-tree"></i></div>
+                <div class="category-name">Amazing views</div>
+            </a>
+            <a href="/listings?category=Mansions" class="category-item">
+                <div class="category-icon"><i class="fas fa-home"></i></div>
+                <div class="category-name">Mansions</div>
+            </a>
+            <a href="/listings?category=National parks" class="category-item">
+                <div class="category-icon"><i class="fas fa-mountain"></i></div>
+                <div class="category-name">National parks</div>
+            </a>
+            <a href="/listings?category=Amazing pools" class="category-item">
+                <div class="category-icon"><i class="fas fa-person-swimming"></i></div>
+                <div class="category-name">Amazing pools</div>
+            </a>
+            <a href="/listings?category=Arctic" class="category-item">
+                <div class="category-icon"><i class="fa-solid fa-snowflake"></i></div>
+                <div class="category-name">Arctic</div>
+            </a>
+            <a href="/listings?category=Beachfront" class="category-item">
+                <div class="category-icon"><i class="fas fa-umbrella-beach"></i></div>
+                <div class="category-name">Beachfront</div>
+            </a>
+            <a href="/listings?category=Camping" class="category-item">
+                <div class="category-icon"><i class="fas fa-campground"></i></div>
+                <div class="category-name">Camping</div>
+            </a>
+            <a href="/listings?category=Design" class="category-item">
+                <div class="category-icon"><i class="fas fa-house-user"></i></div>
+                <div class="category-name">Design</div>
+            </a>
+        </div>
+        <div class="toggle-button">
+            <label for="taxToggle" id="taxLabel">Display total before taxes</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="taxToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <script>
+        const taxToggle = document.getElementById('taxToggle');
+        const taxLabel = document.getElementById('taxLabel');
+
+        taxToggle.addEventListener('change', function() {
+            if (this.checked) {
+                taxLabel.textContent = 'Display total after taxes';
+            } else {
+                taxLabel.textContent = 'Display total before taxes';
+            }
+        });
+    </script>
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4 ">
+        <% if (filteredListings && Array.isArray(filteredListings) && filteredListings.length > 0) { %>
+            <% for(let listing of filteredListings){ %>
+                <a href="/listings/<%= listing._id %>" class="listing-link">
+                    <div class="card col listing-card">
+                        <img src="<%= listing.image.url %>" class=" list-img card-img-top" alt="listing_image" style="height: 20rem" />
+                        <div class="card-body">
+                            <p class="card-text mt-1">
+                                <b><%= listing.title %></b><br />
+                                &#8377;<span class="price" data-original-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %>/night</span><br />
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <% } %>
+        <% } else if (allListings && Array.isArray(allListings) && allListings.length > 0) { %>
+            <% for(let listing of allListings){ %>
+                <a href="/listings/<%= listing._id %>" class="listing-link">
+                    <div class="card col listing-card">
+                        <img src="<%= listing.image.url %>" class="list-img card-img-top" alt="listing_image" style="height: 20rem" />
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b><%= listing.title %></b><br />
+                                &#8377;<span class="price" data-original-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %>/night</span><br />
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <% } %>
+        <% } else { %>
+            <p>No listings found.</p>
+        <% } %>
+    </div>
+</div>
+
+<script>
+    const priceElements = document.querySelectorAll('.price');
+
+    taxToggle.addEventListener('change', function() {
+        if (this.checked) {
+            priceElements.forEach(priceElement => {
+                const originalPrice = parseFloat(priceElement.dataset.originalPrice);
+                const taxedPrice = (originalPrice * 1.1) * 5;
+                priceElement.textContent = `${taxedPrice.toLocaleString("en-IN")} /5 nights`;
+            });
+        } else {
+            priceElements.forEach(priceElement => {
+                const originalPrice = parseFloat(priceElement.dataset.originalPrice);
+                priceElement.textContent = `${(originalPrice).toLocaleString("en-IN")} /night`;
+            });
+        }
+    });
+</script>
+
+<style>
+    .list-img{
+        box-shadow: 3px 6px 12px 1.5px rgba(10, 1, 1, 0.644) !important;
+    }
+</style>

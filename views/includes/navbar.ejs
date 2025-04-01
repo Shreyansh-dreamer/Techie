@@ -1,0 +1,70 @@
+
+<nav class="navbar navbar-expand-md bg-body-light sticky-top border-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="width:10x; height: 10 px;"><i class="fa-brands fa-airbnb"></i></a>
+    <!-- href="/listings" ye hataya hai -->
+    <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nvbr collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <!-- <li class="nav-item">
+            <a class="nav-link" href="/listings">Home</a>
+          </li> -->
+        <li class="nav-item ">
+          <a class="nav-link" href="/listings">Explore <i class="fa-solid fa-globe"></i></a>
+        </li>
+        <li>
+          <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        </li>
+        <% if(!currUser){ %>
+          <li><a class="nav-link" href="/signup"><b>Sign Up</b></a></li>
+          <li><a class="nav-link" href="/login"><b>Log in</b></a></li>
+        <% } %>
+        <% if(currUser) { %>
+          <li><a class="nav-link" href="/logout"><b>Log out</b></a></li>
+        <% } %>
+      </ul>
+    </div>
+    <div class="navbar-nav search-box justify-content-center mx-auto me-lg-6 me-md-2px">
+      <form class="d-flex srch" role="search">
+        <div class="input"><input class="form-control me-2" type="search" placeholder="Search destinations" name="searchQuery"></div>
+        <div><button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button></div>
+        </form>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .btn-search{
+    padding: 0 4 0 4;
+    background-color: #fe424d;
+    color:#fff;
+    border-radius:50%;
+  }
+  .btn-search:hover{
+    background-color: #fe424d;
+    color:#fff;
+    border-radius:50%;
+  }
+  .search-box .form-control,
+    .search-box .btn-search {
+      border: none;
+  }
+  .srch {
+        display: flex;
+        align-items: center; /* Vertically align items */
+        border: 1px solid gray;
+        border-radius: 25px; /* Adjust as needed */
+        padding: 2px; /* Add some padding */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .srch .form-control {
+        flex-grow: 1; /* Allow input to grow */
+    }
+
+    .srch .btn-search {
+        margin-left: auto; /* Push button to the right */
+    }
+</style>

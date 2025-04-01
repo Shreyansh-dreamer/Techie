@@ -1,0 +1,27 @@
+<% -layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <h1 class="col-6 offset-3 mt-5">Signup On AirBNB</h1>
+    <div class="mt-5 col-6 offset-3">
+        <form action="/signup" method="POST" class="needs-validation" novalidate>
+            <div class="mb-4">
+                <label for="username" class="form-label"><h5>Username</h5></label>
+                <input name="username" id="username" type="text" class="form-control"
+                    required />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter a username</div>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="form-label"><h5>Email</h5></label>
+                <input name="email" id="email" type="email" class="form-control"
+                    required />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label"><h5>Password</h5></label>
+                <input name="password" id="password" type="password" class="form-control"
+                    required />
+            </div>
+            <button class="btn btn-success">SignUp</button>
+        </form>
+    </div>
+</div>
